@@ -1,5 +1,10 @@
 <?php
 
+namespace Controllers;
+
+use Classes\CardRule;
+use Classes\CardResponse;
+
 class MainController
 {
     private $request;
@@ -9,11 +14,11 @@ class MainController
         $this->request = !empty($_POST) ? $_POST : json_decode(file_get_contents('php://input'), true);
     }
 
-    public static function validateCard() : void
+    public static function validateCard(): void
     {
-        $rule = new CardRule((new self)->request);
+        $validate = (new CardRule)->validate((new self)->request);
 
-        $response =  new CardResponse($rule->validate());
+        $response = new CardResponse((count($validate) ? $validate : 'success'));
 
         print_r($response->toJson());
     }

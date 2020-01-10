@@ -1,8 +1,10 @@
 <?php
 
+namespace Classes;
+
 class Validation
 {
-    public static function checkCardNumber($cardNumber) : bool
+    public static function checkCardNumber($cardNumber): bool
     {
         if (!$cardNumber) {
             return false;
@@ -14,7 +16,7 @@ class Validation
                 $val = $number[$i];
             } else {
                 $val = $number[$i] * 2;
-                if ($val > 9)  {
+                if ($val > 9) {
                     $val -= 9;
                 }
             }
@@ -23,8 +25,18 @@ class Validation
         return (($sum % 10) === 0);
     }
 
-    public static function checkCardHolder($cardHolder) : bool
+    public static function checkCardHolder($cardHolder): bool
     {
-        return is_string($cardHolder) ? strlen($cardHolder) <= 22 && strlen($cardHolder) > 2 : false;
+        return strlen($cardHolder) <= 22 && strlen($cardHolder) > 2;
+    }
+
+    public static function checkString($object): bool
+    {
+        return is_string($object);
+    }
+
+    public static function required($object = false): bool
+    {
+        return $object ? true : false;
     }
 }

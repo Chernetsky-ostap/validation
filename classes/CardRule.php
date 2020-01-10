@@ -1,18 +1,35 @@
 <?php
 
+namespace Classes;
+
+use Interfaces\RuleInterface;
+
 class CardRule implements RuleInterface
 {
-    private ?string $cardNumber;
-    private ?string $cardHolder;
+    private $rules = [
+        'cardnumber' => [
+            'checkString' => 'is not a string', 'checkCardNumber' => 'is not valid', 'required' => 'field required'
+        ],
+        'cardholder' => [
+            'checkString' => 'is not a string', 'checkCardHolder' => 'is not valid', 'required' => 'field required'
+        ]
+    ];
 
-    public function __construct(array $object)
+    public function validate(array $object = []): array
     {
-        $this->cardNumber = $object['cardnumber'] ?? '';
-        $this->cardHolder = $object['cardholder'] ?? '';
-    }
+        $validate = [];
+        foreach ($this->rules as $field => $list) {
+            foreach ($list as $rule => $message) {
+                try {
+                    if (!Validation::$rule($object[$field])) {
+                        $validate[$field] = $message;
+                    }
+                } catch (\Throwable $exception) {
+                    $validate[$exception->getCode()] = $exception->getMessage();
+                }
 
-    public function validate() : bool
-    {
-        return Validation::checkCardNumber($this->cardNumber) ? Validation::checkCardHolder($this->cardHolder) : false;
+            }
+        }
+        return $validate;
     }
 }

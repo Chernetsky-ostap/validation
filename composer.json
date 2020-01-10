@@ -1,0 +1,17 @@
+{
+  "name": "root/validate",
+  "authors": [
+    {
+      "name": "Chernetsky Ostap",
+      "email": "o.chernetskiy@digiscorp.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Classes\\": "classes",
+      "Controllers\\": "Controllers",
+      "Interfaces\\": "Interfaces"
+    }
+  }
+}
